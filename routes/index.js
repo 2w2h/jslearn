@@ -1,9 +1,7 @@
-var express = require('express')
-var router = express.Router()
+let rest = require('./rest');
 
-// home
-router.get('/', function(req, res, next) {
-	res.send('respond with a resource')
-})
+rest.buildResource('user');
+rest.buildResource('project');
+rest.buildResource('worklog');
 
-module.exports = router;
+module.exports = rest.router;
