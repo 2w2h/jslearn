@@ -1,4 +1,4 @@
-let rest = require('./rest');
+let rest = require('./http/rest');
 
 rest.buildResource('user');
 rest.buildResource('project');

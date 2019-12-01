@@ -2,13 +2,12 @@ let express = require('express');
 let router = express.Router();
 
 let rest = {
-    prefix: '/api/v1',
     router,
     /**
      * build find + CRUD
      */
     buildResource(name) {
-        this.router.get(this.prefix + '/' + name, (req, res, next) => {
+        this.router.get(name, (req, res, next) => {
             res.json({
                 result: {
                     items: [],
@@ -17,16 +16,16 @@ let rest = {
                 errors: null
             })
         });
-        this.router.post(this.prefix + '/' + name, (req, res, next) => {
+        this.router.post(name, (req, res, next) => {
             res.json({result: false, errors: null})
         });
-        this.router.get(this.prefix + '/' + name + '/:id', (req, res, next) => {
+        this.router.get(name + '/:id', (req, res, next) => {
             res.json({result: null, errors: null})
         });
-        this.router.post(this.prefix + '/' + name + '/:id', (req, res, next) => {
+        this.router.post(name + '/:id', (req, res, next) => {
             res.json({result: false, errors: null})
         });
-        this.router.delete(this.prefix + '/' + name + '/:id', (req, res, next) => {
+        this.router.delete(name + '/:id', (req, res, next) => {
             res.json({result: false, errors: null})
         })
     }
