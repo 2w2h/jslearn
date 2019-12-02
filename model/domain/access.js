@@ -1,7 +1,10 @@
-let data = require('../repo');
+let repo = require('../repo');
 
 /**
  * Модели управления доступом
  */
-data.build('base.auth', {});
-data.build('base.roles', {});
+repo.setName('access');
+repo.build('access.auth', {});
+repo.build('access.roles', {});
+
+module.exports = repo;

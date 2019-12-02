@@ -8,7 +8,6 @@ let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 let firewall = require('helmet');
 const mongo = require('mongoose');
-const model = require('./model/index');
 /*
  * База данных - подключение, startup-log
  */
@@ -34,8 +33,6 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 // отдаём скомпиленный SPA
 app.use(express.static(path.join(__dirname, 'public/dist')));
-// модели
-app.use(model());
 // роутер
 app.use('/api/v1/', require('./routes/index'));
 

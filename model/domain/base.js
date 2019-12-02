@@ -1,9 +1,13 @@
-let data = require('../repo');
+let repo = require('../repo');
+let mongoose = require('mongoose');
 
+let Schema = mongoose.Schema,
+    ObjectId = Schema.ObjectId;
 /**
  * Самая базовая бизнес-логика
  */
-data.build('base.user', {
+repo.setName('base');
+repo.build('base.user', {
     login: String, // строковый идентификатор
     first_name: String, // Имя
     last_name: String, // Фамилия
@@ -14,10 +18,12 @@ data.build('base.user', {
     last_seen: Date, // последнее посещение
     update_at: Date, // время обновления
 });
-data.build('base.log', {
+repo.build('base.log', {
     type: String, // какое действие логгируем, если есть (request, db, external)
     user: ObjectId, // кто, ссылка на base.user
     reference: String, // где, ссылка на место в коде
     date: Date, // когда
     duration: Number, // продолжительность действия в миллисекундах
 });
+
+module.exports = repo;

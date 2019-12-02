@@ -6,7 +6,9 @@ let rest = {
     /**
      * build find + CRUD
      */
-    buildResource(name) {
+    buildResource(name, model) {
+        console.log(model);
+
         this.router.get(name, (req, res, next) => {
             res.json({
                 result: {
