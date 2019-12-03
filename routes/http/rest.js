@@ -7,9 +7,12 @@ let rest = {
      * build find + CRUD
      */
     buildResource(name, model) {
+        console.log(name);
         console.log(model);
 
         this.router.get(name, (req, res, next) => {
+            console.log(req.body);
+
             res.json({
                 result: {
                     items: [],
@@ -32,8 +35,5 @@ let rest = {
         })
     }
 };
-router.get('/', (req, res, next) => {
-    res.send('respond with a resource')
-});
 
 module.exports = rest;

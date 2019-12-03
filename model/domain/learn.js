@@ -1,8 +1,7 @@
 let repo = require('../repo');
 let mongoose = require('mongoose');
+let ObjectId = mongoose.Schema.Types.ObjectId;
 
-let Schema = mongoose.Schema,
-    ObjectId = Schema.ObjectId;
 /**
  * Модели для сервиса самообучения
  */
