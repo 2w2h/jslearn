@@ -2,20 +2,22 @@ let repo = require('../repo');
 let mongoose = require('mongoose');
 let ObjectId = mongoose.Schema.Types.ObjectId;
 
+// https://mongoosejs.com/docs/validation.html
+
 /**
  * Самая базовая бизнес-логика
  */
 repo.setName('base');
 repo.build('base.user', {
-    login: String, // строковый идентификатор
-    first_name: String, // Имя
-    last_name: String, // Фамилия
-    active: Boolean, // Признак активности
-    password: String, // пароль
-    salt: String, // уникальная соль
-    email: String, // email
-    last_seen: Date, // последнее посещение
-    update_at: Date, // время обновления
+    login: {type: String, required: true}, // строковый идентификатор
+    active: {type: Boolean, required: true}, // Признак активности
+    password: {type: String, required: true}, // пароль
+    salt: {type: String, required: false}, // уникальная соль
+    update_at: {type: String, required: false}, // время обновления
+    first_name: {type: String, required: false}, // Имя
+    last_name: {type: String, required: false}, // Фамилия
+    email: {type: String, required: false}, // email
+    last_seen: {type: String, required: false}, // последнее посещение
 });
 repo.build('base.log', {
     type: String, // какое действие логгируем, если есть (request, db, external)

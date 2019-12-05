@@ -25,7 +25,7 @@ instance.interceptors.response.use(function (response) {
 /**
  * async/await ЗАПРОСЫ
  */
-const createUser = async (params) => {
+const saveUser = async (params) => {
     try {
         const response = await instance.post('/user', params);
         return response.data;
@@ -34,4 +34,4 @@ const createUser = async (params) => {
     }
 };
 
-export default createUser
+export default saveUser
