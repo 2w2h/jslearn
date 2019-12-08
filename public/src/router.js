@@ -15,7 +15,7 @@ const routes = [
         path: '/test',
         name: 'test',
         component() {
-            return import('./views/Test')
+            return import('./views/ModelTest')
         }
     }
 ]

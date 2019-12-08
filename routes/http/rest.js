@@ -9,28 +9,33 @@ let rest = {
     buildResource(name, model) {
         console.log(`buildResource: "${name}"`);
 
-        // билд объекта без new. Пока удалось обойтись без него
-        // function create(constructor) {
-        //     var factory = constructor.bind.apply(constructor, arguments);
-        //     return new factory();
-        // };
-
+        // find
         this.router.get('/' + name, (req, res, next) => {
-            res.json({
-                result: {
-                    items: [],
-                    total: 0
-                },
-                errors: null
-            })
-        });
-        this.router.post('/' + name, (req, res, next) => {
             try {
-                model.create(req.body, (err, model) => {
+                model.find(req.body, (err, docs) => {
                     if (err) {
                         res.json({result: false, errors: this.prepareErrors(err)})
                     } else {
-                        console.log('saved!');
+                        console.log('finded!');
+                        // TODO - фильтры полей на find
+                        // let filtered = docs.map(x => {
+                        //     return {_id: x.id, login: x.login};
+                        // });
+                        res.json({result: {items: docs, total: docs.length}, errors: null})
+                    }
+                });
+            } catch (e) {
+                console.log(e);
+            }
+        });
+        // create
+        this.router.post('/' + name, (req, res, next) => {
+            try {
+                model.create(req.body, (err, doc) => {
+                    if (err) {
+                        res.json({result: false, errors: this.prepareErrors(err)})
+                    } else {
+                        console.log('created!');
                         res.json({result: true, errors: null})
                     }
                 });
@@ -38,14 +43,52 @@ let rest = {
                 console.log(e);
             }
         });
+        // read
         this.router.get('/' + name + '/:id', (req, res, next) => {
-            res.json({result: null, errors: null})
+            try {
+                model.findById(req.params.id, (err, doc) => {
+                    if (err) {
+                        res.json({result: false, errors: this.prepareErrors(err)})
+                    } else {
+                        console.log('readed!');
+                        res.json({result: doc, errors: null})
+                    }
+                });
+            } catch (e) {
+                console.log(e);
+            }
         });
+
+        // update
         this.router.post('/' + name + '/:id', (req, res, next) => {
-            res.json({result: false, errors: null})
+            try {
+                model.findByIdAndUpdate(req.params.id, req.body, (err, doc) => {
+                    if (err) {
+                        res.json({result: false, errors: this.prepareErrors(err)})
+                    } else {
+                        console.log('updated!');
+                        res.json({result: true, errors: null})
+                    }
+                });
+            } catch (e) {
+                console.log(e);
+            }
         });
+
+        // delete
         this.router.delete('/' + name + '/:id', (req, res, next) => {
-            res.json({result: false, errors: null})
+            try {
+                model.findByIdAndDelete(req.params.id, (err, doc) => {
+                    if (err) {
+                        res.json({result: false, errors: this.prepareErrors(err)})
+                    } else {
+                        console.log('deleted!');
+                        res.json({result: true, errors: null})
+                    }
+                });
+            } catch (e) {
+                console.log(e);
+            }
         })
     },
     prepareErrors(err) {

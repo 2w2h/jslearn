@@ -15,11 +15,4 @@ module.exports = function () {
             return this.domains[domain].models[modelId];
         }
     };
-
-    // от загрузки через отдельный middleware отказываемся в пользу более очевидной привязки
-    // здесь подготавливаем репозитории с моделями
-    // return function (req, res, next) {
-    //     console.log(req.url);
-    //     next()
-    // };
 };
