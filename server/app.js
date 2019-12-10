@@ -27,7 +27,7 @@ const Log = mongo.model('startup', {ping: Boolean});
  */
 let app = express();
 // отдаём скомпиленный SPA
-app.use(express.static(path.join(__dirname, 'public/dist')));
+app.use(express.static(path.join(__dirname, '../client/dist')));
 
 app.use(firewall());
 app.use(logger('dev'));
