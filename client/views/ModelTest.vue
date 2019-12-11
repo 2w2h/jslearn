@@ -1,8 +1,8 @@
 <template>
     <div>
         <h1>Тестирование запросов к апи</h1>
-        <button @click="saveModel">save</button>
-        <button @click="clearForm">clear</button>
+        <button @click="saveModel">Сохранить</button>
+        <button @click="clearForm">Очистить</button>
 
         <div v-for="(val, name) in currentModel" :key="name">
             <input type="text" :placeholder="name" v-model="currentModel[name]">
@@ -15,14 +15,18 @@
         <div v-for="(item, index) in items" :key="index">
             {{ item._id }}
             {{ item.login }}
-            <button @click="loadModel(item)">load</button>
-            <button @click="removeModel(item)">remove</button>
+            <button @click="loadModel(item)">Загрузить</button>
+            <button @click="removeModel(item)">Удалить</button>
         </div>
     </div>
 </template>
 
 <script>
     import User from '../backend'
+
+    import model from '../../model/index'
+
+    console.log(model)
 
     export default {
         name: 'ModelTest',

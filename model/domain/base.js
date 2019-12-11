@@ -8,7 +8,7 @@ let ObjectId = mongoose.Schema.Types.ObjectId;
  * Самая базовая бизнес-логика
  */
 repo.setName('base');
-repo.build('base.user', {
+repo.setModel('base.user', {
     login: {type: String, required: true}, // строковый идентификатор
     active: {type: Boolean, required: true}, // Признак активности
     password: {type: String, required: true}, // пароль
@@ -19,7 +19,7 @@ repo.build('base.user', {
     email: {type: String, required: false}, // email
     last_seen: {type: String, required: false}, // последнее посещение
 });
-repo.build('base.log', {
+repo.setModel('base.log', {
     type: String, // какое действие логгируем, если есть (request, db, external)
     user: ObjectId, // кто, ссылка на base.user
     reference: String, // где, ссылка на место в коде

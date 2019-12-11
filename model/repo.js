@@ -13,7 +13,7 @@ let repo = {
     setName(name) {
         this.name = name;
     },
-    build(name, schema) {
+    setModel(name, schema) {
         /**
          * 1. Создание схемы
          */

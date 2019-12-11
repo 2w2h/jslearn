@@ -8,23 +8,23 @@ let repo = require('../repo');
  * Заполняется cron задачей, изменения фиксируются в сущность system.log
  */
 repo.setName('system');
-repo.build('system.page', { // сервисы SPA, с фронта
+repo.setModel('system.page', { // сервисы SPA, с фронта
     name: String,
     url: String,
 });
-repo.build('system.route', {
+repo.setModel('system.route', {
     name: String,
     type: String, // тип апи роута (rpc / rest / graph_ql)
     url: String,
 });
-repo.build('system.domain', { // домены
+repo.setModel('system.domain', { // домены
     name: String,
 });
-repo.build('system.model', { // модели
+repo.setModel('system.model', { // модели
     domain: String,
     name: String,
 });
-repo.build('system.log', { // лог изменений сущностей выше
+repo.setModel('system.log', { // лог изменений сущностей выше
     domain: String,
     name: String,
     prev: Object,
