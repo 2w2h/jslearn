@@ -1,5 +1,6 @@
 let rest = require('./http/rest');
-const model = require('../../model/index');
+const model = require('../../common/index');
+const binding = require('../../common/binding');
 
 // CORS
 rest.router.use(function (req, res, next) {
@@ -18,8 +19,8 @@ let m = model();
 /**
  * Создаём REST ресурсы и привязываем их к моделям из доменов
  */
-rest.buildResource('user', m.get('base.user'));
-rest.buildResource('project', m.get('learn.project'));
-rest.buildResource('worklog', m.get('learn.worklog'));
+for (let resource in binding) {
+    rest.buildResource(resource, m.get(binding[resource]));
+}
 
 module.exports = rest.router;

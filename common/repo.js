@@ -9,6 +9,7 @@ let mongoose = require('mongoose');
 
 let repo = {
     name: null,
+    schemas: {},
     models: {},
     setName(name) {
         this.name = name;
@@ -22,17 +23,18 @@ let repo = {
          * 2. Добавление функционала (просто пример)
          * model.find().byName('fido').exec(...);
          */
-        schemaObj.methods.printId = function () {
-            console.log("My id is " + this._id);
-        };
-        schemaObj.query.byName = function(name) {
-            return this.where({ name: new RegExp(name, 'i') });
-        };
-        schemaObj.virtual('fullName').get(function () {
-            return this.first_name + ' ' + this.last_name;
-        });
+        // schemaObj.methods.printId = function () {
+        //     console.log("My id is " + this._id);
+        // };
+        // schemaObj.query.byName = function(name) {
+        //     return this.where({ name: new RegExp(name, 'i') });
+        // };
+        // schemaObj.virtual('fullName').get(function () {
+        //     return this.first_name + ' ' + this.last_name;
+        // });
+        this.schemas[name] = schemaObj;
         /**
-         * 3. Компиляция модели, добавление модели в домен
+         * 3. Компиляция модели. На фронте будет пустой
          */
         this.models[name] = mongoose.model(name, schemaObj);
     }

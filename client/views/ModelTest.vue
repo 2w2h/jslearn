@@ -22,11 +22,8 @@
 </template>
 
 <script>
-    import User from '../backend'
+    import User from '../http/backend'
 
-    import model from '../../model/index'
-
-    console.log(model)
 
     export default {
         name: 'ModelTest',
@@ -34,21 +31,27 @@
         data() {
             return {
                 currentModel: {},
-                model: User,
+                User,
                 errors: [],
                 items: []
             }
         },
         created() {
-            this.currentModel = this.model.toJson();
+            this.currentModel = this.User.buildEmpty();
             this.loadModel(this.currentModel);
         },
         methods: {
             clearForm() {
                 this.errors = [];
-                this.currentModel = this.model.toJson();
+                this.currentModel = this.User.buildEmpty();
             },
             saveModel() {
+                let errors = this.User.validate(this.currentModel);
+                if (errors) {
+                    this.errors = errors;
+                    return;
+                }
+
                 User.save(this.currentModel).then(res => {
                     console.log('saveModel', res);
                     if (res.result) {

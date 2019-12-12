@@ -12,7 +12,8 @@ module.exports = function () {
         domains,
         get(modelId) {
             let domain = modelId.split('.')[0];
-            return this.domains[domain].models[modelId];
+            // на бэке получаем модели, на фронте - только схемы
+            return this.domains[domain].models[modelId] || this.domains[domain].schemas[modelId];
         }
     };
 };
