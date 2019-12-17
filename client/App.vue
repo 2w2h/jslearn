@@ -1,15 +1,23 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/learn/theory">Теория</router-link> |
-      <router-link to="/learn/practice">Практика</router-link> |
-      <router-link to="/learn/progress">Прогресс</router-link> |
-      <router-link to="/test">Апи</router-link> |
-      <router-link to="/external_test">Сервисы</router-link>
+      <template v-for="(route, index) in $router.options.routes">
+        <router-link :to="route.path" :key="route.name">
+          {{ route.meta.title }}
+        </router-link>
+        <template v-if="index+1 < $router.options.routes.length">|</template>
+      </template>
     </div>
     <router-view/>
   </div>
 </template>
+
+<script>
+  export default {
+    created() {
+    },
+  }
+</script>
 
 <style>
 #app {

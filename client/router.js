@@ -7,6 +7,7 @@ const routes = [
     {
         path: '/learn/theory',
         name: 'learn_theory',
+        meta: { title: 'Теория' },
         component() {
             return import('./views/learn/Theory')
         }
@@ -14,6 +15,7 @@ const routes = [
     {
         path: '/learn/practice',
         name: 'learn_practice',
+        meta: { title: 'Практика' },
         component() {
             return import('./views/learn/Practice')
         }
@@ -21,22 +23,25 @@ const routes = [
     {
         path: '/learn/progress',
         name: 'learn_progress',
+        meta: { title: 'Прогресс' },
         component() {
             return import('./views/learn/Advance')
         }
     },
     {
-        path: '/test',
-        name: 'test',
+        path: '/rest',
+        name: 'rest',
+        meta: { title: 'REST' },
         component() {
-            return import('./views/ModelTest')
+            return import('./views/REST')
         }
     },
     {
-        path: '/external_test',
-        name: 'test',
+        path: '/rpc',
+        name: 'rpc',
+        meta: { title: 'RPC' },
         component() {
-            return import('./views/ExternalTest')
+            return import('./views/RPC')
         }
     }
 ]
