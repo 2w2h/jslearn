@@ -31,6 +31,13 @@ const routes = [
         component() {
             return import('./views/ModelTest')
         }
+    },
+    {
+        path: '/external_test',
+        name: 'test',
+        component() {
+            return import('./views/ExternalTest')
+        }
     }
 ]
 

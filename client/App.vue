@@ -4,7 +4,8 @@
       <router-link to="/learn/theory">Теория</router-link> |
       <router-link to="/learn/practice">Практика</router-link> |
       <router-link to="/learn/progress">Прогресс</router-link> |
-      <router-link to="/test">Апи</router-link>
+      <router-link to="/test">Апи</router-link> |
+      <router-link to="/external_test">Сервисы</router-link>
     </div>
     <router-view/>
   </div>
