@@ -21,14 +21,6 @@ const routes = [
         }
     },
     {
-        path: '/learn/progress',
-        name: 'learn_progress',
-        meta: { title: 'Прогресс' },
-        component() {
-            return import('./views/learn/Advance')
-        }
-    },
-    {
         path: '/rest',
         name: 'rest',
         meta: { title: 'REST' },

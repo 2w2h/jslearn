@@ -2,17 +2,19 @@
     <div>
         <h1>Тестирование запросов к сервисам</h1>
 
-        <div v-for="star in stars" :key="star.id">
-            <a :href="star.homepage">
-                {{ star.name }}
-            </a>
-            <p>
-                {{ star.description }}
-            </p>
-            lang: {{ star.language }}
-            stars: {{ star.stargazers_count }}
-            forks: {{ star.forks_count }}
-            watchers: {{ star.watchers_count }}
+        <div style="width: 300px;">
+            <div v-for="star in stars" :key="star.id">
+                <a :href="star.homepage">
+                    {{ star.name }}
+                </a>
+                <p>
+                    {{ star.description }}
+                </p>
+                lang: {{ star.language }}
+                stars: {{ star.stargazers_count }}
+                forks: {{ star.forks_count }}
+                watchers: {{ star.watchers_count }}
+            </div>
         </div>
     </div>
 </template>
