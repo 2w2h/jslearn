@@ -1,6 +1,13 @@
+let express = require('express');
+let router = express.Router();
+
 let rest = require('./http/rest');
+let rpc = require('./http/rpc');
+
 const model = require('../../common/index');
 const binding = require('../../common/binding');
+
+rpc.router = rest.router = router;
 
 // CORS
 rest.router.use(function (req, res, next) {
@@ -19,8 +26,18 @@ let m = model();
 /**
  * Создаём REST ресурсы и привязываем их к моделям из доменов
  */
-for (let resource in binding) {
-    rest.buildResource(resource, m.get(binding[resource]));
+for (let resource in binding.rest) {
+    if (binding.rest.hasOwnProperty(resource)) {
+        rest.buildResource(resource, m.get(binding.rest[resource]));
+    }
+}
+/**
+ * Создаём RPC вызовы
+ */
+rpc.registerEndpoint('/rpc');
+for (let i in binding.rpc) {
+    let callName = binding.rpc[i];
+    rpc.buildCall(callName, m.getCall(callName));
 }
 
 module.exports = rest.router;

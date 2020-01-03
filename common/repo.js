@@ -11,9 +11,11 @@ let repo = {
     name: null,
     schemas: {},
     models: {},
+    calls: {},
     setName(name) {
         this.name = name;
     },
+    // TODO: 3 параметр - объект с методами объекта
     setModel(name, schema) {
         /**
          * 1. Создание схемы
@@ -37,22 +39,10 @@ let repo = {
          * 3. Компиляция модели. На фронте будет пустой
          */
         this.models[name] = mongoose.model(name, schemaObj);
+    },
+    setCall(name, call) {
+        this.calls[name] = call;
     }
 };
-
-/**
- * 4. Использование
- */
-// let user = data.create('base.user', { name: 'Иван' })
-// но вообще, модели должны инжектиться сверху (декларативно)
-// user.save((err, user) => {
-//     if (err) return console.error(err);
-//     user.whois();
-// });
-// // user.find({ name: /^Ив/ }, callback);
-// user.find((err, users) => {
-//     if (err) return console.error(err);
-//     console.log(users);
-// });
 
 module.exports = repo;

@@ -4,12 +4,23 @@ let config = require('../../config');
 let authParams = {
     token: config.github.token
 };
-
 const gh = new GitHub(authParams);
-let user = gh.getUser();
-let p = user.listStarredRepos();
 
-function getStars() {
+function getStars(username = null) {
+    let user = gh.getUser(username);
+
+    // переопределяем listStarredRepos с кастомными параметрами
+    // чтобы получить полный список
+    user.listStarredRepos = function(cb) {
+        let requestOptions = this._getOptionsWithDefaults({
+            sort: "created",
+            page: 1
+        });
+        return this._requestAllPages(this.__getScopedUrl('starred'), requestOptions, cb);
+    };
+
+    let p = user.listStarredRepos();
+
     return new Promise(function(resolve) {
         p.then(response => {
             let items = response.data.map(x => {

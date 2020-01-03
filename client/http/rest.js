@@ -8,7 +8,7 @@ export default {
         this.driver = driver;
     },
     getResource(name) {
-        this.schema = model().get(binding[name]);
+        this.schema = model().get(binding.rest[name]);
 
         return {
             driver: this.driver,
@@ -20,6 +20,8 @@ export default {
             },
             prepareErrors(err) {
                 let arr = [];
+                if (!err) return arr;
+
                 for (let i in err.errors) {
                     arr.push({message: err.errors[i].toString()});
                 }

@@ -1,8 +1,5 @@
-let express = require('express');
-let router = express.Router();
-
 let rest = {
-    router,
+    router: null,
     /**
      * build find + CRUD
      */

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import rest from './rest'
+import rpc from './rpc'
 
 const instance = axios.create({
     baseURL: 'http://' + window.location.hostname + ':3000/api/v1/'
@@ -24,8 +25,15 @@ instance.interceptors.response.use(function (response) {
 });
 
 rest.setDriver(instance);
+rpc.setDriver(instance);
 
-// TODO: получение других моделей
+// TODO: получение других моделей REST
 let User = rest.getResource('user');
 
-export default User;
+// TODO: получение других вызовов RPC
+let githubStars = rpc.getCall('external.githubGetStars');
+
+export {
+    User,
+    githubStars
+};

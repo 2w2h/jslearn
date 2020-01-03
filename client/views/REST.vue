@@ -22,7 +22,7 @@
 </template>
 
 <script>
-    import User from '../http/backend'
+    import {User} from '../http/backend'
 
 
     export default {
@@ -31,23 +31,22 @@
         data() {
             return {
                 currentModel: {},
-                User,
                 errors: [],
                 items: []
             }
         },
         created() {
-            this.currentModel = this.User.buildEmpty();
+            this.currentModel = User.buildEmpty();
             this.loadModel(this.currentModel);
         },
         methods: {
             clearForm() {
                 this.errors = [];
-                this.currentModel = this.User.buildEmpty();
+                this.currentModel = User.buildEmpty();
             },
             saveModel() {
-                let errors = this.User.validate(this.currentModel);
-                if (errors) {
+                let errors = User.validate(this.currentModel);
+                if (errors.length > 0) {
                     this.errors = errors;
                     return;
                 }
