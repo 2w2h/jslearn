@@ -35,6 +35,14 @@ const routes = [
         component() {
             return import('./views/RPC')
         }
+    },
+    {
+        path: '/overwatch',
+        name: 'overwatch',
+        meta: { title: 'Overwatch - Гайды' },
+        component() {
+            return import('./views/Overwatch')
+        }
     }
 ]
 

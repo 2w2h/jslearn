@@ -9,7 +9,6 @@ export default {
     },
     getCall (name) {
         if (binding.rpc.includes(name)) {
-            console.log(name);
 
             return async (params) => {
                 let payload = {

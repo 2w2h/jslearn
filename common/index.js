@@ -13,12 +13,14 @@ module.exports = function () {
         domains,
         get(modelId) {
             let domain = modelId.split('.')[0];
+            domain = this.domains[domain];
             // на бэке получаем модели, на фронте - только схемы
-            return this.domains[domain].models[modelId] || this.domains[domain].schemas[modelId];
+            return domain.models[modelId] || domain.schemas[modelId];
         },
         getCall(callId) {
             let domain = callId.split('.')[0];
-            return this.domains[domain].calls[callId];
+            domain = this.domains[domain];
+            return domain.calls[callId];
         }
     };
 };

@@ -42,8 +42,6 @@ repo.setCall('external.githubGetStars', function(params) {
                     doc.stars = doc.stars.filter(x => x.language === params.lang);
                 }
                 doc.stars = doc.stars.sort((a, b) => b.stargazers_count - a.stargazers_count);
-
-
                 resolve(doc);
             }
         });
