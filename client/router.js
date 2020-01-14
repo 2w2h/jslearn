@@ -29,11 +29,11 @@ const routes = [
         }
     },
     {
-        path: '/rpc',
-        name: 'rpc',
-        meta: { title: 'RPC' },
+        path: '/githubStars',
+        name: 'github_stars',
+        meta: { title: 'GitHub Stars' },
         component() {
-            return import('./views/RPC')
+            return import('./views/GithubStars')
         }
     },
     {

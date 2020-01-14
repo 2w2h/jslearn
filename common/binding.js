@@ -5,6 +5,7 @@ module.exports = {
         'worklog': 'learn.worklog',
     },
     rpc: [
-        'external.githubGetStars'
+        'external.githubGetStars',
+        'external.githubStarsAddDesc'
     ]
 }

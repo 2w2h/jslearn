@@ -27,9 +27,17 @@ repo.setModel('external.githubStar', {
             forks_count: Number,
             stargazers_count: Number,
             watchers_count: Number,
+
+            // дополнительные пользовательские данные. Общая тенденция - производительность и удобство в пользу чтения
+            meta: {
+              description: String,
+            }
         }
     ],
 });
+
+// Получение данных по звёздам на GitHub конкретного пользователя
+// require: username
 repo.setCall('external.githubGetStars', function(params) {
     let starredModel = repo.models['external.githubStar'];
 
@@ -43,6 +51,36 @@ repo.setCall('external.githubGetStars', function(params) {
                 }
                 doc.stars = doc.stars.sort((a, b) => b.stargazers_count - a.stargazers_count);
                 resolve(doc);
+            }
+        });
+    });
+});
+
+// Обновление пользовательского описания
+// require: username, star_id, description
+repo.setCall('external.githubStarsAddDesc', function(params) {
+    let starredModel = repo.models['external.githubStar'];
+
+    return new Promise((resolve, reject) => {
+        starredModel.findOne({username: params.username}, (err, doc) => {
+            if (err) {
+                reject(err);
+            } else {
+                  // КЕЙС: upsert в массиве объектов
+                  doc.stars = doc.stars.map(x => {
+                      if (x.id === params.star_id) {
+                        x.meta.description = params.description;
+                      }
+                      return x;
+                });
+
+                starredModel.findByIdAndUpdate(doc._id, doc, (err, doc) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(doc);
+                    }
+                });
             }
         });
     });

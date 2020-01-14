@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="card" style="text-align: left;">
         <h1>Заря</h1>
         <ul>
             <li>200 HP + 200 щита. Щит регенерится, но максимум на 200</li>
@@ -34,3 +34,14 @@
         },
     }
 </script>
+
+<style scoped>
+    .card {
+        width: 600px;
+        float: left;
+        border: 1px solid black;
+        border-radius: 3px;
+        padding: 10px;
+        margin: 10px;
+    }
+</style>

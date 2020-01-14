@@ -32,8 +32,10 @@ let User = rest.getResource('user');
 
 // TODO: получение других вызовов RPC
 let githubStars = rpc.getCall('external.githubGetStars');
+let githubStarsAddDesc = rpc.getCall('external.githubStarsAddDesc');
 
 export {
     User,
-    githubStars
+    githubStars,
+    githubStarsAddDesc
 };
