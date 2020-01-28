@@ -1,26 +1,49 @@
 
 let axios = require('axios');
-var HTMLParser = require('fast-html-parser');
+let HTMLParser = require('htmlParser');
 
 let domain = "https://habr.com";
 let url = domain + "/ru/users/pilot114/favorites/page1/";
 // https://habr.com/ru/users/pilot114/favorites/tag/javascript/
 
-let tagId = '#top-tags';
-let titleClass = '.post__title';
-
-function printNodesContent(nodes) {
-    for (let i in nodes) {
-        console.log(nodes[i].structuredText);
+// big data boss? )
+let htmlFormat = {
+    'post': {
+        'selector': '.post',
+        'inner': {
+            'title': {
+                'selector': '.post__title'
+            },
+            'hubs': {
+                'selector': '.post__hubs',
+                'inner': {
+                    'links': {
+                        'selector': '.hub-links',
+                        'type': Array
+                    }
+                }
+            }
+        }
     }
+};
+
+function getFavorites() {
+    return new Promise(function(resolve) {
+        axios.get(url).then(response => {
+            let dom = HTMLParser.parse(response.data);
+
+            // console.log(dom.querySelector(tagId));
+
+            // 20 штук
+            let nodes = dom.querySelectorAll(titleClass);
+            for (let i in nodes) {
+                console.log(nodes[i].structuredText);
+            }
+            resolve(nodes);
+        });
+    });
 }
 
-axios.get(url).then((response) => {
-    let dom = HTMLParser.parse(response.data);
-
-    console.log(dom.querySelector(tagId));
-
-    printNodesContent(
-        dom.querySelectorAll(titleClass)
-    )
-});
+module.exports = {
+    getFavorites
+};

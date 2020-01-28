@@ -43,6 +43,22 @@ const routes = [
         component() {
             return import('./views/Overwatch')
         }
+    },
+    {
+        path: '/bookmarks',
+        name: 'bookmarks',
+        meta: { title: 'Закладки' },
+        component() {
+            return import('./views/Bookmarks')
+        }
+    },
+    {
+        path: '/habr',
+        name: 'habr',
+        meta: { title: 'Хабр' },
+        component() {
+            return import('./views/Habr')
+        }
     }
 ]
 
