@@ -3,6 +3,7 @@ let mongoose = require('mongoose');
 let ObjectId = mongoose.Schema.Types.ObjectId;
 
 // https://mongoosejs.com/docs/validation.html
+// TODO: предусмотреть методы для установки валидации только на фронте или только на бэке.
 
 /**
  * Самая базовая бизнес-логика
