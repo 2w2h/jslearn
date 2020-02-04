@@ -23,6 +23,8 @@ let html = '<body>\
 
 const $ = cheerio.load(html);
 
-console.log($('li', '.a').text());
+let classA = $('.b');
+console.log($('li', classA).text());
+
 
 process.exit();
