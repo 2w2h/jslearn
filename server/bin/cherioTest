@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+
+const {args, con} = require('./bootstrap');
+
+const cheerio = require('cheerio')
+let html = '<body>\
+<h2 class="title">Hello world</h2>\
+<div class="a">\
+  <ul>\
+    <li>1</li>\
+    <li>2</li>\
+    <li>3</li>\
+  </ul>\
+</div>\
+<div class="b">\
+  <ul>\
+    <li>4</li>\
+    <li>5</li>\
+    <li>6</li>\
+  </ul>\
+</div>\
+</body>';
+
+const $ = cheerio.load(html);
+
+console.log($('li', '.a').text());
+
+process.exit();
