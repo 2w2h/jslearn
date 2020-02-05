@@ -39,7 +39,7 @@ let htmlFormat = {
         title: {
             selector: '.post__title'
         },
-        links: {
+        hubs: {
             selector: ['.hub-link'],
         }
     }
@@ -51,15 +51,13 @@ function buildFromDom($, format, node) {
     node = node || null;
 
     let selector = format.selector;
-    delete format.selector;
 
     nodes = $(selector, node);
 
-    // если больше нет ключей, nodes - это данные, выбираем и выходим (может быть массивом)
     let keys = Object.keys(format);
     let items = [];
 
-    if (keys.length === 0) {
+    if (keys.length < 2) {
         selector = Array.isArray(selector) ? selector.shift() : selector;
         console.log('query leaf: ', selector);
 
@@ -72,14 +70,19 @@ function buildFromDom($, format, node) {
         let data = {};
         for (let i in keys) {
             let field = keys[i];
+            if (field === 'selector') {
+                continue;
+            }
 
-            if (Array.isArray(format[field].selector)) {
-                selector = format[field].selector.shift();
-                console.log('query node: ', selector);
+            let childKeys = Object.keys(format[field]);
+            // только для нод-массивов
+            if (Array.isArray(format[field].selector) && childKeys.length !== 1) {
+                let childSelector = format[field].selector.shift();
+                console.log('query node: ', childSelector);
 
                 let arr = [];
-                $($(selector, node)).each(function(i, item){
-                    arr.push(buildFromDom($, format[field], item));
+                $($(childSelector, node)).each(function(i, item){
+                    arr.push(buildFromDom($, format[field], $(item)));
                 });
                 data[field] = arr;
             } else {
