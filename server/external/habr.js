@@ -38,24 +38,36 @@ let htmlFormat = {
     selector: '.content-list',
     posts: {
         selector: '.post',
-        title: {
-            selector: '.post__title'
-        },
-        links: {
-            selector: '.hub-links',
-        }
+        // title: {
+        //     selector: '.post__title'
+        // },
+        // links: {
+        //     selector: '.hub-links',
+        // }
     }
 };
 // TODO
 function buildFromDom($, format, data, node) {
     data = data || {};
-    node = $(format.selector, node);
+    console.log('query node: ', format.selector);
+    nodes = $(format.selector, node);
+
+    $(node).each(function(i, item){
+        console.log(item.name);
+    });
+
     delete format.selector;
 
     let keys = Object.keys(format);
 
+    //  leaf case
     if (keys.length === 0) {
-        return $(format, node).text().trim();
+        let items = [];
+        $(node).each(function(i, item){
+            console.log('query leaf: ', format.selector);
+            items.push($(format.selector, item).text().trim());
+        });
+        return items.length < 2 ? items.shift() : items;
     }
 
     for (let i in keys) {
