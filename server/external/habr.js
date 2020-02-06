@@ -58,13 +58,20 @@ function buildFromDom($, format, node) {
     let items = [];
 
     if (keys.length < 2) {
-        selector = Array.isArray(selector) ? selector.shift() : selector;
-        console.log('query leaf: ', selector);
+        selector = Array.isArray(selector) ? selector[0] : selector;
 
-        $(nodes).each(function(i, item){
-            items.push($(item).text().trim());
-        });
-        return items.length < 2 ? items.shift() : items;
+
+        console.log('query leaf: ', selector, nodes.length);
+        if (selector === '.hub-link') {
+            $($(selector, node)).each(function(i, item){
+                items.push($(item).text().trim());
+            });
+        } else {
+            $(nodes).each(function(i, item){
+                items.push($(item).text().trim());
+            });
+        }
+        return items.length === 1 ? items[0] : items;
     // есть вложенные поля - применяем рекурсию
     } else {
         let data = {};
@@ -77,8 +84,7 @@ function buildFromDom($, format, node) {
             let childKeys = Object.keys(format[field]);
             // только для нод-массивов
             if (Array.isArray(format[field].selector) && childKeys.length !== 1) {
-                let childSelector = format[field].selector.shift();
-                console.log('query node: ', childSelector);
+                let childSelector = format[field].selector[0];
 
                 let arr = [];
                 $($(childSelector, node)).each(function(i, item){
@@ -86,9 +92,8 @@ function buildFromDom($, format, node) {
                 });
                 data[field] = arr;
             } else {
-                console.log('query node: ', selector);
                 // если в функцию передаётся массив нод, она тоже вернёт массив
-                data[field] = buildFromDom($, format[field], nodes);
+                data[field] = buildFromDom($, format[field], node[0]);
             }
         }
 
