@@ -33,7 +33,7 @@ let pageUrl = domain + "/ru/users/pilot114/favorites/page1/";
 // }
 
 let counterFormat = {
-    selector: '.tabs-menu__item-counter_total',
+    selector: '.tabs-menu > a:nth-child(3) > h3 > span',
 }
 
 // big data boss? )
