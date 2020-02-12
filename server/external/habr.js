@@ -4,39 +4,21 @@ const cheerio = require('cheerio');
 
 let domain = "https://habr.com";
 let counterUrl = domain + "/ru/users/pilot114/";
-let pageUrl = domain + "/ru/users/pilot114/favorites/page1/";
-// https://habr.com/ru/users/pilot114/favorites/tag/javascript/
 
 
-// function buildFromDom($, format) {
-//     let page = {};
-//     let root = $('.content-list');
-//
-//     page.posts = [];
-//
-//     let posts = $('.post', root);
-//     $(posts).each(function(i, post){
-//         let postData = {};
-//
-//         postData.title = $('.post__title', post).text().trim();
-//         postData.links = [];
-//
-//         let links = $('.hub-link', post);
-//         $(links).each(function(i, link){
-//             postData.links.push($(link).text().trim());
-//         });
-//
-//         page.posts.push(postData);
-//     });
-//
-//     return page;
-// }
-
-let counterFormat = {
-    selector: '.tabs-menu > a:nth-child(3) > h3 > span',
+function generator() {
+    let pageUrl = domain + "/ru/users/pilot114/favorites/page";
+    let page = 0;
+    return function() {
+        page++;
+        return pageUrl + page;
+    }
 }
 
-// big data boss? )
+let counterFormat = {
+        selector: '.tabs-menu > a:nth-child(3) > h3 > span',
+}
+
 let pageFormat = {
     selector: '.content-list',
     posts: {
@@ -97,24 +79,24 @@ function buildFromDom($, format, node) {
     }
 }
 
-function pagination(totalCount) {
-    let loadCount = 0;
+const getFavorites = async () => {
+    let posts = [];
 
-}
+    response = await axios.get(counterUrl);
+    const $ = cheerio.load(response.data);
+    let totalCount = +buildFromDom($, counterFormat);
 
-function getFavorites() {
-    return new Promise(function(resolve) {
-        axios.get(counterUrl).then(response => {
-            const $ = cheerio.load(response.data);
-            let counter = +buildFromDom($, counterFormat)[1];
+    let nextPage = generator();
 
-            axios.get(pageUrl).then(response => {
-                const $ = cheerio.load(response.data);
-                let data = buildFromDom($, pageFormat);
-                resolve(data);
-            });
-        });
-    });
+    while(totalCount > 0) {
+        let pageData = await axios.get(nextPage());
+        let $ = cheerio.load(pageData.data);
+        let pagePosts = buildFromDom($, pageFormat).posts;
+        posts = posts.concat(pagePosts);
+
+        totalCount -= 20;
+    }
+    return posts;
 }
 
 module.exports = {
