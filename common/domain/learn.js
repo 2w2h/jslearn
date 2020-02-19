@@ -6,6 +6,9 @@ let ObjectId = mongoose.Schema.Types.ObjectId;
  * Модели для сервиса самообучения
  */
 repo.setName('learn');
+repo.setModel('learn.js_progress', {
+    points: Object, // названия пунктов
+});
 repo.setModel('learn.project', {
     name: String, // название
     description: String, // описание

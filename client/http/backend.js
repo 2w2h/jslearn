@@ -29,6 +29,7 @@ rpc.setDriver(instance);
 
 // TODO: получение других моделей REST
 let User = rest.getResource('user');
+let JsProgress = rest.getResource('js_progress');
 
 // TODO: получение других вызовов RPC
 let githubStars = rpc.getCall('external.githubGetStars');
@@ -36,6 +37,7 @@ let githubStarsAddDesc = rpc.getCall('external.githubStarsAddDesc');
 
 export {
     User,
+    JsProgress,
     githubStars,
     githubStarsAddDesc
 };

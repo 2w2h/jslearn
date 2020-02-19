@@ -30,6 +30,9 @@ let rest = {
             try {
                 model.create(req.body, (err, doc) => {
                     if (err) {
+                        console.log(err);
+                        console.log(err.errors);
+                        console.log(this.prepareErrors(err));
                         res.json({result: false, errors: this.prepareErrors(err)})
                     } else {
                         console.log('created!');
@@ -89,6 +92,9 @@ let rest = {
         })
     },
     prepareErrors(err) {
+        if (!err.errors) {
+            return err.toString();
+        }
         let arr = [];
         for (let i in err.errors) {
             arr.push({message: err.errors[i].toString()});

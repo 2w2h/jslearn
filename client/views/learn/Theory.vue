@@ -12,7 +12,7 @@
             <ol>
                 <li v-for="chapter in hfChapters" :key="chapter">
                     <label>
-                        <input type="checkbox">{{ chapter }}
+                        <input :checked="checkByHash('hf', chapter)" type="checkbox" @input="changeLearn('hf', chapter, $event)">{{ chapter }}
                     </label>
                 </li>
             </ol>
@@ -23,7 +23,7 @@
             <ol>
                 <li v-for="chapter in ljChapters.slice(0, 14)" :key="chapter">
                     <label>
-                        <input type="checkbox">{{ chapter }}
+                        <input :checked="checkByHash('lj1', chapter)" type="checkbox" @input="changeLearn('lj1', chapter, $event)">{{ chapter }}
                     </label>
                 </li>
             </ol>
@@ -32,7 +32,7 @@
             <ol>
                 <li v-for="chapter in ljChapters.slice(14, 20)" :key="chapter">
                     <label>
-                        <input type="checkbox">{{ chapter }}
+                        <input :checked="checkByHash('lj2', chapter)" type="checkbox" @input="changeLearn('lj2', chapter, $event)">{{ chapter }}
                     </label>
                 </li>
             </ol>
@@ -41,7 +41,7 @@
             <ol>
                 <li v-for="chapter in ljChapters.slice(20)" :key="chapter">
                     <label>
-                        <input type="checkbox">{{ chapter }}
+                        <input :checked="checkByHash('lj3', chapter)" type="checkbox" @input="changeLearn('lj3', chapter, $event)">{{ chapter }}
                     </label>
                 </li>
             </ol>
@@ -51,7 +51,7 @@
             <ol>
                 <li v-for="chapter in htmlChapters" :key="chapter">
                     <label>
-                        <input type="checkbox">{{ chapter }}
+                        <input :checked="checkByHash('html', chapter)" type="checkbox" @input="changeLearn('html', chapter, $event)">{{ chapter }}
                     </label>
                 </li>
             </ol>
@@ -60,7 +60,7 @@
             <ol>
                 <li v-for="chapter in cssChapters" :key="chapter">
                     <label>
-                        <input type="checkbox">{{ chapter }}
+                        <input :checked="checkByHash('css', chapter)" type="checkbox" @input="changeLearn('css', chapter, $event)">{{ chapter }}
                     </label>
                 </li>
             </ol>
@@ -70,7 +70,7 @@
             <ol>
                 <li v-for="chapter in csChapters" :key="chapter">
                     <label>
-                        <input type="checkbox">{{ chapter }}
+                        <input :checked="checkByHash('cs', chapter)" type="checkbox" @input="changeLearn('cs', chapter, $event)">{{ chapter }}
                     </label>
                 </li>
             </ol>
@@ -79,6 +79,21 @@
 </template>
 
 <script>
+    import {JsProgress} from '../../http/backend';
+
+    String.prototype.hashCode = function () {
+        let hash = 0;
+        if (this.length === 0) {
+            return hash;
+        }
+        for (let i = 0; i < this.length; i++) {
+            let char = this.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash = hash & hash;
+        }
+        return hash;
+    }
+
     export default {
         name: 'theory',
         components: {},
@@ -100,7 +115,7 @@
                     'Объекты 3',
                 ],
                 ljChapters: [
-                    "Введение", "Основы JavaScript", "Качество кода", "Объекты: основы", "Типы данных", "Продвинутая работа с функциями","Свойства объекта, их конфигурация",
+                    "Введение", "Основы JavaScript", "Качество кода", "Объекты: основы", "Типы данных", "Продвинутая работа с функциями", "Свойства объекта, их конфигурация",
                     "Прототипы, наследование", "Классы", "Обработка ошибок", "Промисы, async/await", "Генераторы, продвинутая итерация", "Модули", "Разное",
                     "Документ", "Введение в события", "Интерфейсные события", "Формы, элементы управления", "Загрузка документа и ресурсов", "Разное",
                     "Фреймы и окна", "Бинарные данные и файлы", "Сетевые запросы", "Хранение данных в браузере", "Анимация", "Веб-компоненты", "Регулярные выражения", "CSS для JavaScript-разработчика"
@@ -119,9 +134,44 @@
                     "Рекурсия. Стек памяти и локальные переменные. Кодирование изображения. Структуры (struct). Основы адресной арифметики.", "Указатели, структура памяти, стек, очереди и связные списки.",
                     "Начинаем программировать в вебе. HTML, CSS, протокол TCP/IP и HTTP.", "Язык программирования PHP. Динамическая типизация.",
                     "Шаблон MVC. Немного о языке запросов SQL.", "JavaScript, Ajax и DOM.", "Глобальное информационное поле. Искусственный интеллект."
-                ]
+                ],
+                // массив отмеченных значений
+                checked: {
+                    points: {}
+                },
+                checkedId: null
             }
         },
+        created() {
+            // тут получаем прочеканные значения
+            JsProgress.load(this.checked).then(res => {
+                if (res.result) {
+                    if (Array.isArray(res.result.items)) {
+                        this.checked = res.result.items[0];
+                    } else {
+                        this.checked = res.result;
+                    }
+                }
+            });
+        },
+        methods: {
+            changeLearn(type, chapter, e) {
+                if (!this.checked) {
+                    this.checked = {
+                        points: {}
+                    };
+                }
+                let key = (type + '###' + chapter).hashCode();
+                this.checked.points[key] = e.target.checked;
+
+                // сохраняем изменения
+                JsProgress.save(this.checked);
+            },
+            checkByHash(type, chapter) {
+                let key = (type + '###' + chapter).hashCode();
+                return this.checked.points[key];
+            }
+        }
     }
 </script>
 <style>
