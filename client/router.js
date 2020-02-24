@@ -21,6 +21,14 @@ const routes = [
         }
     },
     {
+        path: '/learn/lib',
+        name: 'learn_lib',
+        meta: { title: 'Библиотека' },
+        component() {
+            return import('./views/learn/Lib')
+        }
+    },
+    {
         path: '/rest',
         name: 'rest',
         meta: { title: 'REST' },
