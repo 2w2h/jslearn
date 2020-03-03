@@ -8,14 +8,14 @@ export default {
         this.driver = driver;
     },
     getResource(name) {
-        this.schema = model().get(binding.rest[name]);
+        let instanceSchema = model().get(binding.rest[name]);
 
         return {
             driver: this.driver,
-            schema: this.schema,
+            schema: instanceSchema,
             doc: this.doc,
             validate(data) {
-                this.doc = new mongoose.Document(data, this.schema);
+                this.doc = new mongoose.Document(data, instanceSchema);
                 return this.prepareErrors(this.doc.validateSync());
             },
             prepareErrors(err) {
@@ -29,7 +29,7 @@ export default {
             },
             buildEmpty: () => {
                 let empty = {};
-                for (let path in this.schema.paths) {
+                for (let path in instanceSchema.paths) {
                     empty[path] = null;
                 }
                 return empty;

@@ -67,6 +67,14 @@ const routes = [
         component() {
             return import('./views/Habr')
         }
+    },
+    {
+        path: '/youtube',
+        name: 'youtube',
+        meta: { title: 'Youtube' },
+        component() {
+            return import('./views/Youtube')
+        }
     }
 ]
 

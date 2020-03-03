@@ -24,7 +24,6 @@
 <script>
     import {User} from '../http/backend'
 
-
     export default {
         name: 'ModelTest',
         components: {},

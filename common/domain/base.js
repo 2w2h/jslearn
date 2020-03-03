@@ -27,5 +27,13 @@ repo.setModel('base.log', {
     date: Date, // когда
     duration: Number, // продолжительность действия в миллисекундах
 });
+repo.setModel('base.oauth_tokens', {
+    access_token: String, // токен доступа
+    refresh_token: String, // токен обновления
+    scope: String, // область действия токена
+    token_type: String, // тип токена (Bearer)
+    expiry_date: Number, // когда закончится время действия токена и его нужно будет обновить
+    user_id: String, // ссылка на пользователя
+});
 
 module.exports = repo;
