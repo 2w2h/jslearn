@@ -81,7 +81,7 @@
 <script>
     import {JsProgress} from '../../http/backend';
 
-    String.prototype.hashCode = function () {
+    String.prototype.hashCode = function() {
         let hash = 0;
         if (this.length === 0) {
             return hash;
@@ -92,7 +92,7 @@
             hash = hash & hash;
         }
         return hash;
-    }
+    };
 
     export default {
         name: 'theory',

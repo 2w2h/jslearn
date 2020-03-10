@@ -2,11 +2,38 @@
 
 const {args, con} = require('./bootstrap');
 let youtube = require("../external/youtube");
+const model = require('../../common/index');
 
-youtube.getChannels().then(result => {
-    // console.log(JSON.stringify(result));
-    console.log(result);
-    process.exit();
+let youtubeUsername = "pilot114";
+
+youtube.getSubscriptions().then(result => {
+
+    let data = {
+        username: youtubeUsername,
+        created_at: new Date(),
+        subscriptions: result,
+    };
+
+    con.then(con => {
+        let subsModel = model().get('external.youtubeSubscriptions');
+
+        // обновить или создать, если обновить не удалось
+        // в случае обновления
+        // TODO
+        subsModel.findOneAndUpdate(
+            {username: data.username},
+            data,
+            {upsert: true},
+            (err, doc) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log("save success!");
+                }
+                process.exit();
+            }
+        );
+    });
 }).catch(e => {
     console.log(e);
 })
