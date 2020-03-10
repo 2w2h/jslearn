@@ -17,7 +17,7 @@ function generator() {
 
 let counterFormat = {
         selector: '.tabs-menu > a:nth-child(3) > h3 > span',
-}
+};
 
 let pageFormat = {
     selector: '.content-list',
@@ -35,7 +35,7 @@ let pageFormat = {
 const getFavorites = async () => {
     let posts = [];
 
-    response = await axios.get(counterUrl);
+    let response = await axios.get(counterUrl);
     const $ = cheerio.load(response.data);
     let totalCount = +buildFromDom($, counterFormat);
 
@@ -50,7 +50,7 @@ const getFavorites = async () => {
         totalCount -= 20;
     }
     return posts;
-}
+};
 
 module.exports = {
     getFavorites

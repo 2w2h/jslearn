@@ -7,7 +7,7 @@ const oauth2Client = new google.auth.OAuth2(
   config.youtube.redirect_uri,
 );
 
-const getChannels = async () => {
+const getSubscriptions = async () => {
     const model = require('../../common/index');
     let tokens = model().get('base.oauth_tokens');
     let docTokens = await tokens.find({'user_id': '5dec9d3297553c1adc83f905'});
@@ -18,14 +18,31 @@ const getChannels = async () => {
         auth: oauth2Client
     });
 
-    const res = await youtube.subscriptions.list({
-        part: 'id,snippet',
-        mine: true
-    });
-    console.log(res.code);
-    return res.data;
-}
+    let totalCount = 0;
+    let perPage = 50;
+    let data = [];
+    let pageToken = null;
+    do {
+        let params = {
+            part: 'id,snippet',
+            mine: true,
+            maxResults: perPage
+        };
+        // пагинация
+        if (pageToken) {
+            params.pageToken = pageToken;
+        }
+
+        let res = await youtube.subscriptions.list(params);
+        pageToken = res.data.nextPageToken || null;
+        totalCount = totalCount || res.data.pageInfo.totalResults;
+        data = data.concat(res.data.items);
+
+    } while (totalCount > data.length);
+
+    return data;
+};
 
 module.exports = {
-    getChannels
+    getSubscriptions
 };

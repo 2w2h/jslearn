@@ -36,6 +36,39 @@ repo.setModel('external.githubStar', {
     ],
 });
 
+repo.setModel('external.youtubeSubscriptions', {
+    username: String, // youtube username, key
+    created_at: Date,
+    subscriptions: [
+        {
+            id: String,
+            etag: String,
+            kind: String,
+            snippet: {
+                publishedAt: String,
+                title: String,
+                description: String,
+                resourceId: {
+                    kind: String,
+                    channelId: String,
+                },
+                channelId: String,
+                thumbnails: {
+                    default: {
+                        url: String,
+                    },
+                    medium: {
+                        url: String,
+                    },
+                    high: {
+                        url: String,
+                    }
+                },
+            }
+        }
+    ],
+});
+
 // Получение данных по звёздам на GitHub конкретного пользователя
 // require: username
 repo.setCall('external.githubGetStars', function(params) {
