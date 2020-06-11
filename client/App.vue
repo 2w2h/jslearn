@@ -29,7 +29,8 @@
 }
 
 #nav {
-  padding: 30px;
+  padding: 15px;
+  background-color: burlywood;
 }
 
 #nav a {
