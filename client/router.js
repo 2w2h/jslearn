@@ -45,14 +45,6 @@ const routes = [
         }
     },
     {
-        path: '/overwatch',
-        name: 'overwatch',
-        meta: { title: 'Overwatch - Гайды' },
-        component() {
-            return import('./views/Overwatch')
-        }
-    },
-    {
         path: '/bookmarks',
         name: 'bookmarks',
         meta: { title: 'Закладки' },
