@@ -4,7 +4,7 @@ let axios = require('axios');
 // библиотека cheerio - для извлечения данных из html по селекторам
 const cheerio = require('cheerio');
 // функия buildFromDom - моя функция для преобразования html в нужный json-формат
-const {buildFromDom} = require('../parser/html');
+const {buildFromDom} = require('../parsers/html');
 
 // ссылка на мой профиль на Хабре
 let myProfileUrl = "https://habr.com/ru/users/pilot114/";
