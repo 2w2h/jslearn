@@ -1,0 +1,22 @@
+#!/usr/bin/env node
+
+const {args, con} = require('./bootstrap');
+let litres = require("../external/litres");
+const model = require('../../common/index');
+
+litres.getPopular().then((result) => {
+
+    result.forEach(book => {
+        let dork = book.author + '. ' + book.name + ' filetype:pdf';
+        console.log(dork);
+
+        let parts = book.image.split('/')[2].split('-')
+        let id = parts.pop()
+        let image = 'https://cv4.litres.ru/pub/c/pdf-kniga/cover_250/'+id+'-'+ parts.join('-') +'-'+id+'.jpg'
+
+        console.log(image);
+    })
+    process.exit();
+}).catch((e) => {
+    console.log(e);
+});

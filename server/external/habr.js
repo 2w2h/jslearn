@@ -1,4 +1,3 @@
-
 // библиотека axios - нужна чтобы скачивать данные с сайта
 let axios = require('axios');
 // библиотека cheerio - для извлечения данных из html по селекторам
@@ -18,7 +17,7 @@ let myProfileUrl = "https://habr.com/ru/users/pilot114/";
 function generator() {
     let pageUrl = myProfileUrl + "favorites/page";
     let page = 0;
-    return function() {
+    return function () {
         page++;
         return pageUrl + page;
     }
@@ -26,7 +25,8 @@ function generator() {
 
 // формат данных для получения количества избранных статей
 let counterFormat = {
-        selector: '.tabs-menu > a:nth-child(3) > h3 > span',
+    selector: '.tabs-menu > a:nth-child(3) > h3 > span',
+    attr: 'title'
 };
 
 // формат данных для получения названий статей и их категорий ("хабов")
@@ -48,6 +48,12 @@ let pageFormat = {
     }
 };
 
+let options = {
+    headers: {
+        'Cookie': "web_override=false;" // отдавать старую версию страницы
+    }
+};
+
 // Сам парсинг - эта функция будет возвращать переменную posts, в которой
 // содержиться массив моих избраных статей с Хабра
 const getFavorites = async () => {
@@ -55,19 +61,20 @@ const getFavorites = async () => {
     let posts = [];
 
     // скачиваем html из профиля
-    let response = await axios.get(myProfileUrl);
+    let response = await axios.get(myProfileUrl, options);
     // Передаём html в библиотеку (в виде текста), получаем объект с DOM
     const $ = cheerio.load(response.data);
     // Используя описание формата (строка 28), получаем общее число статей
-    let totalCount = +buildFromDom($, counterFormat);
+    let totalCount = buildFromDom($, counterFormat); // строка вида "Закладки: 1157"
+    totalCount = +totalCount.split(':')[1].trim();
 
     // Подготавливаем генератор ссылок на страницы, который будем использвать в цикле
     let nextPage = generator();
 
     // пока ещё есть что скачивать
-    while(totalCount > 0) {
+    while (totalCount > 0) {
         // скачиваем по ссылке из генератора
-        let pageData = await axios.get(nextPage());
+        let pageData = await axios.get(nextPage(), options);
         // Передаём html в библиотеку (в виде текста), получаем объект с DOM
         let $ = cheerio.load(pageData.data);
         // Используя описание формата (строка 38), получаем интересующие нас данные по статьям (названия и хабы)

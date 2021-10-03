@@ -1,5 +1,6 @@
 /*
-    Рекурсивно парсит DOM, пока только текст
+    Рекурсивно парсит DOM
+    поддерживает поле type = 'text' | 'attr:name' для определения, как именно получать данные из узла
 
     Пример использования:
 
@@ -8,6 +9,7 @@
 
     let pageFormat = {
         selector: '.content-list',
+        attr: 'title',
         posts: {
             selector: ['.post'],
             title: {
@@ -23,16 +25,24 @@ function buildFromDom($, format, node) {
     node = node || null;
 
     let selector = format.selector;
-
-    nodes = $(selector, node);
+    let attr = format.attr || null;
 
     let keys = Object.keys(format);
     let items = [];
 
-    if (keys.length < 2) {
+    if (
+        keys.length < 2
+        ||
+        (keys.length < 3 && keys.includes('selector') && keys.includes('attr'))
+    ) {
         selector = Array.isArray(selector) ? selector[0] : selector;
+
         $($(selector, node)).each(function(i, item){
-            items.push($(item).text().trim());
+            if (attr) {
+                items.push($(item).attr(attr).trim());
+            } else {
+                items.push($(item).text().trim());
+            }
         });
         return items.length === 1 ? items[0] : items;
     // есть вложенные поля - применяем рекурсию
@@ -40,7 +50,7 @@ function buildFromDom($, format, node) {
         let data = {};
         for (let i in keys) {
             let field = keys[i];
-            if (field === 'selector') {
+            if (field === 'selector' || field === 'attr') {
                 continue;
             }
 
