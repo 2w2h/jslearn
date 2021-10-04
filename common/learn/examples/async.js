@@ -1,3 +1,7 @@
+/**
+ * Иллюстрация полезности async
+ */
+
 function loadTovars() {
     console.log('loadTovars');
 }
@@ -14,6 +18,9 @@ function getResult() {
     console.log('getResult');
 }
 
+/**
+ * 1. Громоздкий вариант
+ */
 document.addEventListener("input", (e) => {
     document.addEventListener("load", (e) => {
         document.addEventListener("change", (e) => {
@@ -30,35 +37,23 @@ document.addEventListener("input", (e) => {
     loadTovars();
 });
 
-// ...
+// оборачиваем функции в промисы, например так...
 function promiseLoadTovars() {
     return new Promise((resolve) => {
         document.addEventListener("click", (e) => {
             loadTovars();
             resolve(e);
         });
-    }));
+    });
 }
 
-
+/**
+ * 2. Лаконичный вариант
+ */
 async () => {
     await promiseLoadTovars();
-    await renderTovars();
-    await showOrHideButtons();
-    await createOrder();
-    await getResult();
+    await promiseRenderTovars();
+    await promiseShowOrHideButtons();
+    await promiseCreateOrder();
+    await promiseGetResult();
 };
-
-
-let string = "hello world";
-let obj = {};
-for (var i = 0; i < string.length; i++) {
-    let letter = string[i];
-    if (letter === ' ')  continue;
-    if (!obj[letter]) {
-        obj[letter] = 0;
-    }
-    obj[letter]++;
-}
-console.log(obj);
-console.log(Object.keys(obj).length);

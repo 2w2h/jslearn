@@ -1,9 +1,9 @@
 {
   "name": "public",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
-    "serve": "concurrently --kill-others \"vue-cli-service serve\" \"nodemon ./server/bin/www\"",
+    "serve": "concurrently --kill-others \"vue-cli-service serve\" \"nodemon --unhandled-rejections=strict ./server/bin/www\"",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
@@ -12,7 +12,7 @@
     "cheerio": "^1.0.0-rc.10",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
-    "express": "~4.16.1",
+    "express": "~4.17.1",
     "faker": "^4.1.0",
     "github-api": "^3.4.0",
     "googleapis": "^47.0.0",
@@ -20,7 +20,7 @@
     "http-errors": "~1.6.3",
     "lodash": "^4.17.21",
     "module": "^1.2.5",
-    "mongoose": "^5.13.9",
+    "mongoose": "^6.0.8",
     "morgan": "~1.9.1",
     "vue": "^2.6.14",
     "vue-router": "^3.5.2"

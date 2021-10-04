@@ -1,7 +1,6 @@
 module.exports = {
     randNumbers(n = 10, min = 1, max = 10) {
-        return [...Array(n)].map(x => {
-            x;
+        return [...Array(n)].map(() => {
             let randVal = Math.random();
             return Math.floor(randVal * (max - min + 1)) + min;
         });

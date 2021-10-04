@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const {args, con} = require('./bootstrap');
+const {args, con} = require('./app');
 let habr = require("../external/habr");
 const model = require('../../common/index');
 

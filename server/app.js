@@ -11,7 +11,7 @@ const mongo = require('mongoose');
 /*
  * База данных - подключение, startup-log
  */
-mongo.connect('mongodb://127.0.0.1/myapp', {
+mongo.connect('mongodb://127.0.0.1:27017/myapp', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
@@ -26,8 +26,12 @@ const Log = mongo.model('startup', {ping: Boolean});
  * Настройка модулей
  */
 let app = express();
-// отдаём скомпиленный SPA
-app.use(express.static(path.join(__dirname, '../client/dist')));
+
+let prod = false;
+if (prod) {
+    // отдаём скомпиленный SPA
+    app.use(express.static(path.join(__dirname, '../client/dist')));
+}
 
 app.use(firewall());
 app.use(logger('dev'));
