@@ -16,7 +16,7 @@ github.getStars(githubUsername).then(result => {
         stars: result,
     };
 
-    con.then(con => {
+    con().then(con => {
         let starredModel = model().get('external.githubStar');
 
         // обновить или создать, если обновить не удалось

@@ -5,13 +5,15 @@ const [, , ...args] = process.argv;
 if (args.length > 0) {
     console.log(`Args: ${args}`);
 }
-let con = mongo.connect('mongodb://127.0.0.1/myapp', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false
-});
+
+async function connect() {
+    await mongo.connect('mongodb://127.0.0.1/myapp', {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    });
+}
 
 module.exports = {
   args,
-  con
+  con: connect
 };
